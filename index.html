@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Empatía — Curso interactivo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --ink:#141F33;
+  --ink-soft:#243350;
+  --paper:#F0F3F7;
+  --paper-card:#FFFFFF;
+  --brass:#B8862B;
+  --brass-soft:#E7C888;
+  --slate:#45607F;
+  --moss:#3E7A5E;
+  --moss-soft:#DCEEE4;
+  --clay:#B35A46;
+  --clay-soft:#F5DFD8;
+  --line:#D9DFE8;
+  --text:#1D2634;
+  --text-soft:#5B6579;
+  --radius:14px;
+  --maxw:880px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; background:var(--paper); color:var(--text);
+  font-family:'IBM Plex Sans', system-ui, sans-serif; font-size:17px; line-height:1.6;
+}
+.logo{
+  position:absolute;
+  top:28px;
+  right:36px;
+  width:130px;
+  filter:brightness(0) invert(1);
+  opacity:.9;
+}  
+h1,h2,h3,h4{font-family:'Fraunces', Georgia, serif; color:var(--ink); line-height:1.15; margin:0 0 .5em 0; font-weight:600;}
+.eyebrow{
+  font-family:'IBM Plex Mono', monospace; font-size:12.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--brass); font-weight:500; display:block; margin-bottom:.6em;
+}
+p{margin:0 0 1em 0;}
+ul,ol{margin:0 0 1em 0; padding-left:1.3em;}
+a{color:var(--slate);}
+
+.section{scroll-margin-top:90px; max-width:var(--maxw); margin:0 auto; padding:64px 24px;}
+.section + .section{border-top:1px solid var(--line);}
+.section[data-compass]{padding-top:96px;}
+
+
+/* ===== HERO ===== */
+.hero{
+  background:radial-gradient(120% 140% at 15% -10%, #24365A 0%, var(--ink) 55%, #0F1728 100%);
+  color:#EFEEE8; padding:80px 24px 70px; position:relative; overflow:hidden;
+}
+.hero-inner{max-width:var(--maxw); margin:0 auto; display:grid; grid-template-columns:200px 1fr; gap:40px; align-items:center;}
+.hero h1{color:#fff; font-size:clamp(34px,5vw,52px); margin-bottom:.25em;}
+.hero p.lead{color:#C9CFDC; font-size:18px; max-width:52ch;}
+.hero-meta{display:flex; gap:10px; flex-wrap:wrap; margin-top:22px;}
+.chip{
+  font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.04em;
+  border:1px solid rgba(255,255,255,.25); color:#DCE1EA; padding:6px 12px; border-radius:100px;
+}
+
+/* compass (5 puntos) */
+.compass{width:170px; height:170px; margin:0 auto;}
+.compass .dial{fill:none; stroke:rgba(255,255,255,.35); stroke-width:1;}
+.compass .label{font-family:'IBM Plex Mono', monospace; font-size:8.5px; fill:#9AA6BC; letter-spacing:.05em;}
+.compass .label.active{fill:var(--brass-soft); font-weight:700;}
+.compass .needle{transform-origin:85px 85px; transition:transform .7s cubic-bezier(.2,.8,.2,1);}
+.compass .needle-fill{fill:var(--brass);}
+.compass .hub{fill:#0F1728; stroke:var(--brass); stroke-width:2;}
+
+/* ===== LAYOUT WITH NAV ===== */
+.layout{max-width:1180px; margin:0 auto; display:grid; grid-template-columns:220px 1fr; gap:0;}
+.railwrap{position:relative;}
+.rail{position:sticky; top:28px; padding:28px 20px 28px 24px; display:flex; flex-direction:column; gap:4px;}
+.rail .mini-compass{width:64px; height:64px; margin-bottom:16px;}
+.rail a{
+  font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.02em; color:var(--text-soft);
+  text-decoration:none; padding:8px 10px; border-radius:8px; border-left:2px solid transparent; transition:all .15s;
+}
+.rail a:hover{color:var(--ink); background:#E5E9F0;}
+.rail a.active{color:var(--ink); border-left-color:var(--brass); background:#fff; font-weight:600;}
+.content{min-width:0;}
+.content .section{padding-left:24px; padding-right:24px;}
+
+/* ===== CARDS / GRID ===== */
+.card-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin:20px 0;}
+.card-grid.cols-3{grid-template-columns:repeat(3,1fr);}
+.card-grid.cols-5{grid-template-columns:repeat(5,1fr);}
+.card{background:var(--paper-card); border:1px solid var(--line); border-radius:var(--radius); padding:20px;}
+.card h4{font-size:16px; margin-bottom:.35em;}
+.card p{font-size:14px; color:var(--text-soft); margin:0;}
+.card .icon{font-size:22px; margin-bottom:8px; display:block;}
+
+/* ===== NOTE / TIP BOXES ===== */
+.note{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px; margin:20px 0; font-size:15.5px;}
+.note.accent{background:var(--moss-soft); border-color:#BFDECD; color:#1F4433;}
+.note.warm{background:var(--clay-soft); border-color:#E7C3B7; color:#5C2B1D;}
+.tip-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:20px 0;}
+.tip{background:#fff; border:1px solid var(--brass-soft); border-radius:12px; padding:16px 18px; font-size:14.5px; color:var(--text-soft);}
+
+/* ===== QUOTE ===== */
+.quote{border-left:4px solid var(--brass); padding:6px 0 6px 20px; margin:26px 0; font-family:'Fraunces', Georgia, serif; font-size:19px; color:var(--ink); font-style:italic;}
+.quote span{display:block; margin-top:10px; font-family:'IBM Plex Mono', monospace; font-size:12px; font-style:normal; letter-spacing:.05em; text-transform:uppercase; color:var(--slate);}
+
+/* ===== MATCH ACTIVITY ===== */
+.activity{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:24px 26px; margin:24px 0;}
+.activity .prompt{font-weight:600; margin-bottom:16px;}
+.match-row{display:grid; grid-template-columns:1fr 1fr; gap:14px; align-items:center; padding:10px 0; border-bottom:1px solid var(--line);}
+.match-row:last-of-type{border-bottom:none;}
+.match-row .item{font-weight:700; color:var(--ink); font-size:14.5px; letter-spacing:.02em;}
+.match-row select{
+  width:100%; padding:9px 10px; border-radius:8px; border:1px solid var(--line);
+  font-family:'IBM Plex Sans'; font-size:14px; color:var(--text); background:var(--paper);
+}
+.match-row.correct select{border-color:var(--moss); background:var(--moss-soft);}
+.match-row.incorrect select{border-color:var(--clay); background:var(--clay-soft);}
+
+/* ===== V/F QUIZ ===== */
+.vf-q{margin-bottom:18px; padding-bottom:16px; border-bottom:1px solid var(--line);}
+.vf-q:last-of-type{border-bottom:none;}
+.vf-q p.qtext{font-size:15px; color:var(--ink); margin-bottom:10px;}
+.vf-opts{display:flex; gap:10px;}
+.vf-opts label{
+  font-family:'IBM Plex Mono', monospace; font-size:12.5px; letter-spacing:.03em;
+  border:1px solid var(--line); border-radius:100px; padding:7px 16px; cursor:pointer; color:var(--text-soft);
+}
+.vf-opts input{margin-right:6px;}
+.vf-q.correct{background:var(--moss-soft); border-radius:10px; padding:14px 16px;}
+.vf-q.incorrect{background:var(--clay-soft); border-radius:10px; padding:14px 16px;}
+
+.btn{
+  font-family:'IBM Plex Mono', monospace; font-size:13px; letter-spacing:.04em; text-transform:uppercase;
+  background:var(--ink); color:#fff; border:none; border-radius:8px; padding:12px 22px; cursor:pointer;
+  transition:background .15s; margin-top:16px;
+}
+.btn:hover{background:var(--ink-soft);}
+.feedback{margin-top:14px; font-size:14.5px; font-weight:600; display:none;}
+.feedback.show{display:block;}
+.feedback.good{color:var(--moss);}
+.feedback.bad{color:var(--clay);}
+
+/* ===== DIVIDER PART ===== */
+.part-divider{
+  text-align:center; margin:12px 0 30px;
+}
+.part-divider .part-label{
+  font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.15em; color:var(--brass);
+  text-transform:uppercase; display:block; margin-bottom:10px;
+}
+.part-divider h2{
+  display:inline-block; border:1px solid var(--line); border-radius:10px; padding:16px 28px;
+  background:#fff; font-size:22px;
+}
+
+/* ===== LIST WITH ACCENT (tipos, obstaculos, etc) ===== */
+.accent-list{display:grid; gap:14px; margin:20px 0;}
+.accent-item{background:#fff; border:1px solid var(--line); border-left:4px solid var(--brass); border-radius:0 var(--radius) var(--radius) 0; padding:16px 20px;}
+.accent-item h4{font-size:16px; margin-bottom:.3em;}
+.accent-item p{font-size:14.5px; color:var(--text-soft); margin:0;}
+.accent-item.moss{border-left-color:var(--moss);}
+.accent-item.clay{border-left-color:var(--clay);}
+
+/* ===== COMPARISON (simpatia vs empatia) ===== */
+.compare-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0;}
+.compare-col{border-radius:var(--radius); padding:20px;}
+.compare-col.left{background:var(--clay-soft); border:1px solid #E7C3B7;}
+.compare-col.right{background:var(--moss-soft); border:1px solid #BFDECD;}
+.compare-col h4{font-family:'IBM Plex Mono', monospace; font-size:13px; letter-spacing:.1em; text-transform:uppercase; margin-bottom:.7em;}
+.compare-col.left h4{color:var(--clay);}
+.compare-col.right h4{color:var(--moss);}
+.compare-col p{font-size:14.5px; margin:0 0 .8em 0;}
+.compare-col p:last-child{margin-bottom:0;}
+
+/* ===== CIERRE ===== */
+.closing{background:var(--ink); color:#EFEEE8;}
+.closing .section{padding-top:70px; padding-bottom:70px;}
+.closing h2{color:#fff;}
+.closing .eyebrow{color:var(--brass-soft);}
+.closing p.lead{color:#C9CFDC;}
+.closing-steps{list-style:none; padding:0; margin:28px 0; display:grid; gap:12px;}
+.closing-steps li{
+  display:flex; gap:16px; align-items:flex-start;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:var(--radius);
+  padding:16px 20px;
+}
+.closing-steps .n{
+  font-family:'IBM Plex Mono', monospace; font-size:13px; font-weight:500;
+  width:30px; height:30px; border-radius:50%;
+  background:var(--brass); color:var(--ink);
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.closing-steps h4{color:#fff; font-size:17px; margin:0 0 .2em;}
+.closing-steps p{color:#C9CFDC; font-size:14.5px; margin:0;}
+.closing-note{color:var(--brass-soft); font-family:'IBM Plex Mono', monospace; font-size:13px; letter-spacing:.04em; margin:0;}
+
+
+footer{text-align:center; padding:30px 20px; color:var(--text-soft); font-size:13.5px; font-family:'IBM Plex Mono', monospace;}
+
+@media (max-width:900px){
+  .hero-inner{grid-template-columns:1fr; text-align:center;}
+  .compass{margin:0 auto;}
+  .layout{grid-template-columns:1fr;}
+  .rail{position:sticky; top:0; flex-direction:row; overflow-x:auto; gap:4px; background:var(--paper); border-bottom:1px solid var(--line); padding:12px 16px; z-index:10;}
+  .rail .mini-compass{display:none;}
+  .rail a{white-space:nowrap;}
+  .card-grid, .card-grid.cols-3, .card-grid.cols-5, .tip-grid, .compare-grid{grid-template-columns:1fr;}
+  .match-row{grid-template-columns:1fr;}
+}
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} .compass .needle{transition:none;} }
+
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <img src="logo.png" alt="Logo LinkSolution" class="logo">
+    <svg class="compass" viewBox="0 0 170 170" aria-hidden="true">
+      <circle class="dial" cx="85" cy="85" r="70"/>
+      <circle class="dial" cx="85" cy="85" r="55"/>
+      <text class="label" id="lbl-mod1" x="85" y="17" text-anchor="middle">QUÉ ES</text>
+      <text class="label" id="lbl-mod2" x="146" y="64" text-anchor="start">TRABAJO</text>
+      <text class="label" id="lbl-mod3" x="122" y="152" text-anchor="middle">COMUNICAR</text>
+      <text class="label" id="lbl-mod4" x="48" y="152" text-anchor="middle">OBSTÁCULOS</text>
+      <text class="label" id="lbl-mod5" x="26" y="64" text-anchor="end">ESTRATEGIAS</text>
+      <g class="needle" id="needle">
+        <polygon class="needle-fill" points="85,25 91,85 85,80 79,85"/>
+        <polygon points="85,145 91,85 85,90 79,85" fill="#5B6579"/>
+      </g>
+      <circle class="hub" cx="85" cy="85" r="6"/>
+    </svg>
+    <div>
+      <span class="eyebrow">Campus de capacitación · Curso interactivo</span>
+      <h1>Empatía</h1>
+      <p class="lead">La empatía es la capacidad de comprender y compartir las emociones de otras personas. En este curso vamos a explorar qué es, por qué importa en el trabajo, cómo comunicarla, qué obstáculos la dificultan y cómo desarrollarla como una habilidad más.</p>
+      <div class="hero-meta">
+        <span class="chip">5 lecciones</span>
+        <span class="chip">Actividades interactivas</span>
+        <span class="chip">Evaluación en Humand</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <div class="railwrap">
+    <nav class="rail" id="rail">
+      <svg class="mini-compass" viewBox="0 0 170 170" aria-hidden="true">
+        <circle class="dial" cx="85" cy="85" r="70" stroke="#B9C2D2"/>
+        <g class="needle" id="needle-mini">
+          <polygon points="85,25 91,85 85,80 79,85" fill="var(--brass)"/>
+          <polygon points="85,145 91,85 85,90 79,85" fill="#B9C2D2"/>
+        </g>
+        <circle cx="85" cy="85" r="6" fill="var(--paper)" stroke="var(--brass)" stroke-width="2"/>
+      </svg>
+      <a href="#indice">Índice</a>
+      <a href="#mod1" data-nav="mod1">1. Qué es la empatía</a>
+      <a href="#mod2" data-nav="mod2">2. Empatía en el trabajo</a>
+      <a href="#mod3" data-nav="mod3">3. Comunicar con empatía</a>
+      <a href="#mod4" data-nav="mod4">4. Superar obstáculos</a>
+      <a href="#mod5" data-nav="mod5">5. Desarrollar empatía</a>
+      <a href="#cierre">Cierre</a>
+    </nav>
+  </div>
+
+  <div class="content">
+
+    <!-- INDICE -->
+    <section class="section" id="indice">
+      <span class="eyebrow">Recorrido del curso</span>
+      <h2>Índice</h2>
+      <ol>
+        <li>¿Qué es la empatía?</li>
+        <li>La importancia de la empatía en el trabajo</li>
+        <li>Comunicar con empatía</li>
+        <li>Superando los obstáculos de la empatía</li>
+        <li>Estrategias para desarrollar empatía</li>
+      </ol>
+      <p>La empatía es fundamental en el lugar de trabajo: los clientes quieren sentirse valorados y reconocidos, y los empleados desean sentirse apreciados y comprendidos por sus compañeros y gerentes.</p>
+    </section>
+
+    <!-- MOD 1 -->
+    <section class="section" id="mod1" data-compass="mod1">
+      <div class="part-divider">
+        <span class="part-label">Lección 1</span>
+        <h2>¿Qué es la empatía?</h2>
+      </div>
+
+      <p>Un compañero choca contra su escritorio y te estremecés. Una amiga te cuenta sobre sus vacaciones en la playa y te imaginás las olas, el viento y el olor del mar. Un colega se queja de estar agotado y recordás cómo se sentía pasar noches en vela en la universidad.</p>
+      <div class="note">Todos estos son ejemplos de empatía: momentos en los que vemos las cosas desde la perspectiva de otra persona, nos conectamos con ella y comprendemos sus emociones. Cuando empatizamos con alguien, experimentamos el evento o sentimiento como si fuera propio.</div>
+
+      <h3>La diferencia entre empatía y simpatía</h3>
+      <p>Estos dos conceptos suelen confundirse, pero hay una diferencia importante entre ellos.</p>
+      <div class="compare-grid">
+        <div class="compare-col left">
+          <h4>Simpatía</h4>
+          <p>Es sentir compasión o lástima por alguien.</p>
+          <p>Con la simpatía es posible que no comprendamos completamente la experiencia de una persona, pero reconocemos su dificultad y expresamos nuestra preocupación.</p>
+        </div>
+        <div class="compare-col right">
+          <h4>Empatía</h4>
+          <p>Es comprender y ver las cosas desde la perspectiva de otra persona.</p>
+          <p>Al expresar empatía nos ponemos en el lugar del otro y nos conectamos con él a un nivel más profundo.</p>
+        </div>
+      </div>
+      <p>Cuando sentimos simpatía por alguien, decimos: <em>"Lo siento por vos."</em> Cuando empatizamos con una persona, vamos más allá de nuestra realidad y nos imaginamos en su situación, comprendiendo la experiencia como si fuera nuestra.</p>
+
+      <h3>Tres características de la empatía</h3>
+      <p>La empatía requiere tres elementos: escuchar, comprender y ser abierto.</p>
+      <div class="card-grid cols-3">
+        <div class="card"><h4>Escuchar</h4><p>Un oyente empático se concentra en lo que se dice, en el tono y la intensidad de la voz, y en la forma en que la otra persona se expresa. Eso ayuda a sentir la historia junto con quien habla.</p></div>
+        <div class="card"><h4>Comprender</h4><p>No es necesario haber vivido el mismo evento o emoción. Una persona empática usa su imaginación y sus experiencias pasadas para imaginar cómo podrían ser las cosas para la otra persona.</p></div>
+        <div class="card"><h4>Ser abierto</h4><p>Requiere no juzgar la situación, las acciones o los sentimientos de otra persona. Hay que dejar de lado las propias opiniones para poder ver las cosas desde la perspectiva del otro.</p></div>
+      </div>
+
+      <div class="note accent">¿Sos empático o simpático? Preguntate: ¿me estoy relacionando personalmente con esta emoción o experiencia? ¿comprendo el sentimiento? Si podés ponerte en el lugar de la otra persona y experimentar el momento junto con ella, entonces estás mostrando empatía.</div>
+
+      <div class="quote">"La empatía comienza al entender la vida desde la perspectiva de otra persona. Nadie tiene una experiencia objetiva de la realidad. Todo pasa a través de nuestros propios prismas individuales."<span>Sterling K. Brown</span></div>
+
+      <h3>Tres tipos de empatía</h3>
+      <div class="accent-list">
+        <div class="accent-item">
+          <h4>Cognitiva</h4>
+          <p>Es la forma más racional y lógica de empatía. Adoptás la perspectiva de la otra persona para identificar y comprender sus emociones, pero no las experimentás por vos mismo. Es útil al negociar, persuadir o motivar a otros: un gerente puede entender qué motiva a su equipo sin necesariamente sentir lo mismo que el grupo.</p>
+        </div>
+        <div class="accent-item moss">
+          <h4>Emocional</h4>
+          <p>Es sentir junto con alguien: experimentás físicamente las emociones de la otra persona como si fueran tuyas. Cuando llorás, gritás o sonreís durante una película, estás sintiendo empatía emocional. Es una manera de formar una conexión íntima, pero puede ser emocionalmente abrumadora.</p>
+        </div>
+        <div class="accent-item clay">
+          <h4>Compasiva</h4>
+          <p>Es la que tradicionalmente asociamos con la empatía: está orientada a la acción. Comprendemos y sentimos las emociones de otra persona, y nos sentimos impulsados a ayudar. Es el punto intermedio: sentís lo suficiente como para saber cómo ayudar, sin quedar tan distanciado como en la empatía cognitiva ni tan abrumado como en la emocional.</p>
+        </div>
+      </div>
+
+      <h3>Ejercicio práctico</h3>
+      <div class="activity" id="act-match-tipos">
+        <p class="prompt">Relacioná cada tipo de empatía con su definición:</p>
+        <div class="match-row" data-correct="La forma más racional: identificás y comprendés las emociones del otro, sin experimentarlas vos mismo.">
+          <span class="item">Empatía cognitiva</span>
+          <select>
+            <option value="">Elegí una definición…</option>
+            <option>La forma más racional: identificás y comprendés las emociones del otro, sin experimentarlas vos mismo.</option>
+            <option>Experimentás físicamente las emociones de la otra persona, como si fueran tuyas.</option>
+            <option>Comprendés y sentís las emociones del otro, y te sentís impulsado a ayudar.</option>
+          </select>
+        </div>
+        <div class="match-row" data-correct="Experimentás físicamente las emociones de la otra persona, como si fueran tuyas.">
+          <span class="item">Empatía emocional</span>
+          <select>
+            <option value="">Elegí una definición…</option>
+            <option>La forma más racional: identificás y comprendés las emociones del otro, sin experimentarlas vos mismo.</option>
+            <option>Experimentás físicamente las emociones de la otra persona, como si fueran tuyas.</option>
+            <option>Comprendés y sentís las emociones del otro, y te sentís impulsado a ayudar.</option>
+          </select>
+        </div>
+        <div class="match-row" data-correct="Comprendés y sentís las emociones del otro, y te sentís impulsado a ayudar.">
+          <span class="item">Empatía compasiva</span>
+          <select>
+            <option value="">Elegí una definición…</option>
+            <option>La forma más racional: identificás y comprendés las emociones del otro, sin experimentarlas vos mismo.</option>
+            <option>Experimentás físicamente las emociones de la otra persona, como si fueran tuyas.</option>
+            <option>Comprendés y sentís las emociones del otro, y te sentís impulsado a ayudar.</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-check" data-target="act-match-tipos" data-kind="match">Corregir</button>
+        <p class="feedback"></p>
+      </div>
+    </section>
+
+    <!-- MOD 2 -->
+    <section class="section" id="mod2" data-compass="mod2">
+      <div class="part-divider">
+        <span class="part-label">Lección 2</span>
+        <h2>La importancia de la empatía en el trabajo</h2>
+      </div>
+
+      <p>Para experimentar empatía, debés imaginarte en el lugar de otra persona, ver las cosas a través de sus ojos y considerar cómo una experiencia o emoción podría afectarla. En el trabajo, ser empático ayuda a conectarte con los demás, fomenta conversaciones productivas, fortalece las relaciones y mejora la moral.</p>
+
+      <h3>Sin empatía, el rendimiento disminuye</h3>
+      <div class="accent-list">
+        <div class="accent-item">
+          <h4>1. Con los clientes</h4>
+          <p>Si un negocio no puede ver las cosas desde la perspectiva de sus clientes, puede desarrollar productos o servicios sin valor. Si un representante de servicio es indiferente a la situación de un cliente, puede perder su negocio.</p>
+        </div>
+        <div class="accent-item">
+          <h4>2. Con el liderazgo</h4>
+          <p>Si un líder no puede empatizar con su equipo, tendrá dificultades para conectar o liderar con éxito, y para motivar al grupo.</p>
+        </div>
+        <div class="accent-item">
+          <h4>3. Entre compañeros</h4>
+          <p>Si no podemos entendernos, no podemos comunicarnos de manera efectiva. Podemos no notar el malestar de alguien, enviar un mensaje insensible o perder tiempo hablando sin realmente dialogar.</p>
+        </div>
+      </div>
+
+      <div class="quote">"Si no podés tener empatía y construir relaciones efectivas, entonces, por más inteligente que seas, no llegarás muy lejos."<span>Daniel Goleman</span></div>
+
+      <h3>5 razones por las que la empatía es importante</h3>
+      <div class="card-grid">
+        <div class="card"><h4>Aumenta la satisfacción del cliente</h4><p>Empatizar con los clientes significa comprender qué es importante para ellos, reconocer su dolor o inconveniencia y responder adecuadamente.</p></div>
+        <div class="card"><h4>Impulsa el éxito en el liderazgo</h4><p>Un líder empático toma en cuenta los puntos de vista de sus empleados y sabe cómo inspirarlos a hacer su mejor trabajo.</p></div>
+        <div class="card"><h4>Impulsa conversaciones productivas</h4><p>Notás cuando un compañero está preocupado, sabés cuándo pausar una discusión y podés resolver conflictos derivados de malentendidos.</p></div>
+        <div class="card"><h4>Construye relaciones laborales fuertes</h4><p>Cultiva un ambiente donde los miembros del equipo se escuchan, se conectan y se identifican unos con otros.</p></div>
+      </div>
+      <div class="note accent"><strong>Mejora la moral del personal:</strong> un ambiente de trabajo empático fomenta un sentido de pertenencia. Los empleados se sienten escuchados, comprendidos y apreciados, y tienen niveles más altos de satisfacción laboral.</div>
+
+      <h3>Ejercicio práctico</h3>
+      <p>Indicá si las siguientes afirmaciones son verdaderas o falsas:</p>
+      <div class="activity" id="act-vf-trabajo">
+        <div class="vf-q" data-correct="true">
+          <p class="qtext">1. Si un negocio no puede ver las cosas desde la perspectiva de sus clientes, puede desarrollar productos o servicios sin valor.</p>
+          <div class="vf-opts">
+            <label><input type="radio" name="vft1" value="true"> Verdadero</label>
+            <label><input type="radio" name="vft1" value="false"> Falso</label>
+          </div>
+        </div>
+        <div class="vf-q" data-correct="false">
+          <p class="qtext">2. Si un líder no logra empatizar con su equipo, igualmente podrá motivarlo y liderarlo con éxito.</p>
+          <div class="vf-opts">
+            <label><input type="radio" name="vft2" value="true"> Verdadero</label>
+            <label><input type="radio" name="vft2" value="false"> Falso</label>
+          </div>
+        </div>
+        <div class="vf-q" data-correct="true">
+          <p class="qtext">3. Notar cuando un compañero está preocupado y saber cuándo pausar una discusión favorece conversaciones más productivas.</p>
+          <div class="vf-opts">
+            <label><input type="radio" name="vft3" value="true"> Verdadero</label>
+            <label><input type="radio" name="vft3" value="false"> Falso</label>
+          </div>
+        </div>
+        <div class="vf-q" data-correct="false">
+          <p class="qtext">4. Un ambiente de trabajo empático reduce la moral y la satisfacción laboral del personal.</p>
+          <div class="vf-opts">
+            <label><input type="radio" name="vft4" value="true"> Verdadero</label>
+            <label><input type="radio" name="vft4" value="false"> Falso</label>
+          </div>
+        </div>
+        <div class="vf-q" data-correct="true">
+          <p class="qtext">5. Empatizar con los clientes significa comprender qué es importante para ellos, lo que aumenta la satisfacción del cliente.</p>
+          <div class="vf-opts">
+            <label><input type="radio" name="vft5" value="true"> Verdadero</label>
+            <label><input type="radio" name="vft5" value="false"> Falso</label>
+          </div>
+        </div>
+        <button type="button" class="btn btn-check" data-target="act-vf-trabajo" data-kind="vf">Corregir</button>
+        <p class="feedback"></p>
+      </div>
+    </section>
+
+    <!-- MOD 3 -->
+    <section class="section" id="mod3" data-compass="mod3">
+      <div class="part-divider">
+        <span class="part-label">Lección 3</span>
+        <h2>Comunicar con empatía</h2>
+      </div>
+
+      <p>Cuando nos comunicamos con empatía, escuchamos antes de hablar, reconocemos lo que hemos oído y validamos las emociones de la otra persona. Ofrecemos apoyo y hacemos saber a los demás que no están solos. La empatía abre la puerta a conversaciones basadas en el respeto, la honestidad y la colaboración.</p>
+
+      <h3>La empatía impulsa conversaciones exitosas</h3>
+      <div class="card-grid cols-3">
+        <div class="card"><h4>Respeto</h4><p>Aunque no estés de acuerdo, seguís escuchando activamente. Te concentrás en las señales verbales y no verbales del otro y respondés teniendo en cuenta sus emociones.</p></div>
+        <div class="card"><h4>Honestidad</h4><p>Cuando ofrecés empatía sin juicio, los demás se sienten más abiertos a compartir lo que realmente piensan, en lugar de lo que creen que querés escuchar.</p></div>
+        <div class="card"><h4>Colaboración</h4><p>Al ver las cosas desde la perspectiva del otro, abrís la puerta a trabajar juntos: escuchás, das espacio a las ideas y hacés preguntas relevantes.</p></div>
+      </div>
+
+      <h3>El proceso paso a paso</h3>
+      <div class="accent-list">
+        <div class="accent-item">
+          <h4>Paso 1 · Practicá la escucha activa</h4>
+          <p>Estate completamente presente. No te concentres en lo que vas a decir después: considerá las palabras, la inflexión y el lenguaje corporal de tu compañero, y reconocé la emoción detrás de su mensaje.</p>
+        </div>
+        <div class="accent-item">
+          <h4>Paso 2 · Reconocé y parafraseá</h4>
+          <p>Hacé saber a la persona que la escuchaste: "Entiendo lo difícil que es esto". Después, parafraseá el mensaje enfocándote en los sentimientos: "Parece que estás molesto porque…".</p>
+        </div>
+        <div class="accent-item">
+          <h4>Paso 3 · Da validación</h4>
+          <p>Hacele saber que tiene derecho a esas emociones: "Veo lo importante que es esto para vos" o "Sé que esto puede ser difícil".</p>
+        </div>
+        <div class="accent-item">
+          <h4>Paso 4 · Ofrecé apoyo</h4>
+          <p>No asumas qué necesita: preguntá "¿Te gustaría resolver esto juntos?" o simplemente hacele saber que no está solo.</p>
+        </div>
+      </div>
+
+      <h3>Ejercicio práctico</h3>
+      <div class="activity" id="act-match-pasos">
+        <p class="prompt">Relacioná cada paso del proceso con su descripción:</p>
+        <div class="match-row" data-correct="Estar completamente presente, sin formular la respuesta mientras el otro habla.">
+          <span class="item">Escucha activa</span>
+          <select>
+            <option value="">Elegí una descripción…</option>
+            <option>Estar completamente presente, sin formular la respuesta mientras el otro habla.</option>
+            <option>Repetir con tus palabras lo que escuchaste, enfocándote en los sentimientos.</option>
+            <option>Hacer saber a la persona que sus emociones son legítimas.</option>
+            <option>Preguntar cómo podés ayudar, en lugar de asumirlo.</option>
+          </select>
+        </div>
+        <div class="match-row" data-correct="Repetir con tus palabras lo que escuchaste, enfocándote en los sentimientos.">
+          <span class="item">Reconocer y parafrasear</span>
+          <select>
+            <option value="">Elegí una descripción…</option>
+            <option>Estar completamente presente, sin formular la respuesta mientras el otro habla.</option>
+            <option>Repetir con tus palabras lo que escuchaste, enfocándote en los sentimientos.</option>
+            <option>Hacer saber a la persona que sus emociones son legítimas.</option>
+            <option>Preguntar cómo podés ayudar, en lugar de asumirlo.</option>
+          </select>
+        </div>
+        <div class="match-row" data-correct="Hacer saber a la persona que sus emociones son legítimas.">
+          <span class="item">Dar validación</span>
+          <select>
+            <option value="">Elegí una descripción…</option>
+            <option>Estar completamente presente, sin formular la respuesta mientras el otro habla.</option>
+            <option>Repetir con tus palabras lo que escuchaste, enfocándote en los sentimientos.</option>
+            <option>Hacer saber a la persona que sus emociones son legítimas.</option>
+            <option>Preguntar cómo podés ayudar, en lugar de asumirlo.</option>
+          </select>
+        </div>
+        <div class="match-row" data-correct="Preguntar cómo podés ayudar, en lugar de asumirlo.">
+          <span class="item">Ofrecer apoyo</span>
+          <select>
+            <option value="">Elegí una descripción…</option>
+            <option>Estar completamente presente, sin formular la respuesta mientras el otro habla.</option>
+            <option>Repetir con tus palabras lo que escuchaste, enfocándote en los sentimientos.</option>
+            <option>Hacer saber a la persona que sus emociones son legítimas.</option>
+            <option>Preguntar cómo podés ayudar, en lugar de asumirlo.</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-check" data-target="act-match-pasos" data-kind="match">Corregir</button>
+        <p class="feedback"></p>
+      </div>
+
+      <h3>No minimices la experiencia de otro</h3>
+      <p>Al comunicar empatía, a veces, por error, minimizamos el problema de la otra persona. Estas son tres respuestas a evitar:</p>
+      <div class="card-grid cols-3">
+        <div class="card"><h4>Decir lo que debería sentir</h4><p>Frases como "no deberías sentirte así" o "no es para tanto" descartan las emociones del otro. Es su experiencia: hay que mirarla desde sus ojos, no desde los propios.</p></div>
+        <div class="card"><h4>Robarle protagonismo</h4><p>Las emociones no son una competencia. Evitá frases como "eso no es nada, mi día fue mucho peor": podés relacionarte con el otro sin competir con su experiencia.</p></div>
+        <div class="card"><h4>Dar un consuelo vacío</h4><p>Frases como "al menos no estás…" tratan de cambiar las emociones de la otra persona en lugar de acompañarlas. La empatía es sentir con alguien, no corregirle el sentimiento.</p></div>
+      </div>
+    </section>
+
+    <!-- MOD 4 -->
+    <section class="section" id="mod4" data-compass="mod4">
+      <div class="part-divider">
+        <span class="part-label">Lección 4</span>
+        <h2>Superando los obstáculos de la empatía</h2>
+      </div>
+
+      <p>La empatía es ponerse en el lugar del otro, pero ¿qué sucede cuando el zapato no encaja? Un obstáculo de empatía es cualquier cosa que interfiera con nuestra comprensión: estar demasiado absortos en nuestras propias vidas, no poder identificarnos con otra persona, tener experiencias demasiado diferentes o sostener opiniones polarizadas.</p>
+
+      <h3>4 obstáculos de la empatía</h3>
+      <div class="accent-list">
+        <div class="accent-item clay">
+          <h4>Distracciones internas y externas</h4>
+          <p>Cuando estás emocionalmente abrumado —agotado, enojado, angustiado o estresado— tu capacidad para ver las emociones de los demás se ve obstaculizada. Lo mismo pasa si estás haciendo varias cosas a la vez.</p>
+        </div>
+        <div class="accent-item clay">
+          <h4>Hacer suposiciones</h4>
+          <p>Basamos nuestra comprensión en nuestros propios puntos de vista en lugar de en los de la otra persona, y asumimos erróneamente que conocemos su historia antes de que termine de contarla.</p>
+        </div>
+        <div class="accent-item clay">
+          <h4>No estar de acuerdo con la posición del otro</h4>
+          <p>Con la mentalidad de "yo tengo razón, vos estás equivocado" hay poco espacio para la empatía: nos enfocamos en debatir en lugar de entender.</p>
+        </div>
+        <div class="accent-item clay">
+          <h4>Sesgos personales y juicios</h4>
+          <p>Cuando vemos a otros grupos como ajenos, se genera una mentalidad de "nosotros contra ellos" que nos impide relacionarnos y ver las cosas desde su perspectiva.</p>
+        </div>
+      </div>
+
+      <h3>Cómo superarlos</h3>
+      <div class="card-grid">
+        <div class="card"><h4>Estar en el momento</h4><p>Creá el tiempo y el espacio para dar a la otra persona toda tu atención. Si estás distraído o abrumado, pedí hablar más tarde.</p></div>
+        <div class="card"><h4>No hacer suposiciones</h4><p>Dale al otro el beneficio de la duda. En lugar de asumir, hacé preguntas, escuchá y tratá de conectar.</p></div>
+        <div class="card"><h4>Escuchar para entender</h4><p>No necesitás estar de acuerdo con alguien para experimentar empatía: buscá un terreno común emocional, no necesariamente intelectual.</p></div>
+        <div class="card"><h4>Desafiar tus sesgos</h4><p>Preguntate por qué te cuesta relacionarte con cierta persona, informate y tratá de mirar a las personas como individuos, no como grupos.</p></div>
+      </div>
+
+      <div class="note accent">Supera los juicios rápidos: la próxima vez que te encuentres haciendo un juicio rápido sobre otra persona, intentá anular esas suposiciones. Hacé preguntas, obtené más detalles y buscá formas de empatizar con ella antes de formar una opinión.</div>
+
+      <h3>Ejercicio práctico</h3>
+      <p>Indicá si las siguientes afirmaciones son verdaderas o falsas:</p>
+      <div class="activity" id="act-vf-obstaculos">
+        <div class="vf-q" data-correct="true">
+          <p class="qtext">1. Estar emocionalmente abrumado dificulta ver las emociones de los demás.</p>
+          <div class="vf-opts">
+            <label><input type="radio" name="vfo1" value="true"> Verdadero</label>
+            <label><input type="radio" name="vfo1" value="false"> Falso</label>
+          </div>
+        </div>
+        <div class="vf-q" data-correct="false">
+          <p class="qtext">2. Hacer suposiciones nos permite comprender la historia completa de otra persona.</p>
+          <div class="vf-opts">
+            <label><input type="radio" name="vfo2" value="true"> Verdadero</label>
+            <label><input type="radio" name="vfo2" value="false"> Falso</label>
+          </div>
+        </div>
+        <div class="vf-q" data-correct="false">
+          <p class="qtext">3. Tener opiniones muy polarizadas sobre un tema facilita experimentar empatía con quien piensa distinto.</p>
+          <div class="vf-opts">
+            <label><input type="radio" name="vfo3" value="true"> Verdadero</label>
+            <label><input type="radio" name="vfo3" value="false"> Falso</label>
+          </div>
+        </div>
+        <div class="vf-q" data-correct="true">
+          <p class="qtext">4. Los sesgos personales pueden generar una mentalidad de "nosotros contra ellos".</p>
+          <div class="vf-opts">
+            <label><input type="radio" name="vfo4" value="true"> Verdadero</label>
+            <label><input type="radio" name="vfo4" value="false"> Falso</label>
+          </div>
+        </div>
+        <div class="vf-q" data-correct="true">
+          <p class="qtext">5. Reconocer los obstáculos es el primer paso para superarlos.</p>
+          <div class="vf-opts">
+            <label><input type="radio" name="vfo5" value="true"> Verdadero</label>
+            <label><input type="radio" name="vfo5" value="false"> Falso</label>
+          </div>
+        </div>
+        <button type="button" class="btn btn-check" data-target="act-vf-obstaculos" data-kind="vf">Corregir</button>
+        <p class="feedback"></p>
+      </div>
+    </section>
+
+    <!-- MOD 5 -->
+    <section class="section" id="mod5" data-compass="mod5">
+      <div class="part-divider">
+        <span class="part-label">Lección 5</span>
+        <h2>Estrategias para desarrollar empatía</h2>
+      </div>
+
+      <p>Algunas personas son naturalmente empáticas, mientras que otras tienen dificultades para conectar. Pero, sin importar el punto de partida, la empatía se puede aprender y desarrollar: es una elección, es decidir pensar más allá del propio mundo y adentrarse en el de otra persona.</p>
+
+      <div class="quote">"La empatía es una habilidad como cualquier otra habilidad humana. Si tenés la oportunidad de practicarla, podés mejorar en ella."<span>Simon Baron-Cohen</span></div>
+
+      <h3>4 estrategias para desarrollar la empatía</h3>
+      <div class="accent-list">
+        <div class="accent-item moss">
+          <h4>Ejercitá tu conciencia emocional</h4>
+          <p>Si no sos consciente de tus propias reacciones emocionales, será difícil comprender las de los demás. Hacé una pausa durante el día y preguntate: ¿cuál es mi estado de ánimo ahora? ¿por qué me siento así?</p>
+        </div>
+        <div class="accent-item moss">
+          <h4>Observá a los demás</h4>
+          <p>Ampliá tu preocupación empática observando comportamientos y expresiones no verbales. Preguntate: ¿qué tipo de día está teniendo esta persona? ¿parece molesta, estresada o irritada?</p>
+        </div>
+        <div class="accent-item moss">
+          <h4>Hablá con extraños</h4>
+          <p>Desafiá tus suposiciones comunicándote con personas fuera de tu círculo social: compañeros de otros departamentos, o alguien que acabás de conocer.</p>
+        </div>
+        <div class="accent-item moss">
+          <h4>Practicá el cambio de perspectiva</h4>
+          <p>Vaciá tu mente e intentá adoptar la perspectiva de otra persona. Preguntate: si esa fuera mi historia, ¿cómo vería esta situación? ¿cómo reaccionaría?</p>
+        </div>
+      </div>
+
+      <div class="note">Además, hacé preguntas reflexivas: "¿Podrías contarme más sobre eso?" o "¿Cómo fue eso para vos?" son formas directas de llegar al fondo de las emociones de alguien, sin caer en las suposiciones.</div>
+
+      <h3>Ejercicio práctico</h3>
+      <div class="activity" id="act-match-estrategias">
+        <p class="prompt">Relacioná cada estrategia con su descripción:</p>
+        <div class="match-row" data-correct="Reflexionar sobre tus propios sentimientos para relacionarte mejor con los de otros.">
+          <span class="item">Conciencia emocional</span>
+          <select>
+            <option value="">Elegí una descripción…</option>
+            <option>Reflexionar sobre tus propios sentimientos para relacionarte mejor con los de otros.</option>
+            <option>Prestar atención a comportamientos y expresiones no verbales de los demás.</option>
+            <option>Comunicarte con personas fuera de tu círculo social.</option>
+            <option>Imaginar cómo sería vivir la historia y las experiencias de otra persona.</option>
+          </select>
+        </div>
+        <div class="match-row" data-correct="Prestar atención a comportamientos y expresiones no verbales de los demás.">
+          <span class="item">Observar a los demás</span>
+          <select>
+            <option value="">Elegí una descripción…</option>
+            <option>Reflexionar sobre tus propios sentimientos para relacionarte mejor con los de otros.</option>
+            <option>Prestar atención a comportamientos y expresiones no verbales de los demás.</option>
+            <option>Comunicarte con personas fuera de tu círculo social.</option>
+            <option>Imaginar cómo sería vivir la historia y las experiencias de otra persona.</option>
+          </select>
+        </div>
+        <div class="match-row" data-correct="Comunicarte con personas fuera de tu círculo social.">
+          <span class="item">Hablar con extraños</span>
+          <select>
+            <option value="">Elegí una descripción…</option>
+            <option>Reflexionar sobre tus propios sentimientos para relacionarte mejor con los de otros.</option>
+            <option>Prestar atención a comportamientos y expresiones no verbales de los demás.</option>
+            <option>Comunicarte con personas fuera de tu círculo social.</option>
+            <option>Imaginar cómo sería vivir la historia y las experiencias de otra persona.</option>
+          </select>
+        </div>
+        <div class="match-row" data-correct="Imaginar cómo sería vivir la historia y las experiencias de otra persona.">
+          <span class="item">Cambio de perspectiva</span>
+          <select>
+            <option value="">Elegí una descripción…</option>
+            <option>Reflexionar sobre tus propios sentimientos para relacionarte mejor con los de otros.</option>
+            <option>Prestar atención a comportamientos y expresiones no verbales de los demás.</option>
+            <option>Comunicarte con personas fuera de tu círculo social.</option>
+            <option>Imaginar cómo sería vivir la historia y las experiencias de otra persona.</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-check" data-target="act-match-estrategias" data-kind="match">Corregir</button>
+        <p class="feedback"></p>
+      </div>
+
+      <h3>Para finalizar</h3>
+      <p>La empatía es una habilidad empresarial esencial. Sin ella, corremos el riesgo de malinterpretar las necesidades de colegas y clientes y de comportarnos de manera insensible. Con empatía, en cambio, demostramos que nos importa y que queremos ayudar, lo que puede llevar a mejores relaciones, moral e incluso rendimiento.</p>
+      <div class="note warm">
+        <p><strong>Entendé la diferencia entre simpatía y empatía.</strong> Cuando empatizamos, nos ponemos en los zapatos del otro y buscamos entender su experiencia a un nivel profundo.</p>
+        <p><strong>Comunicá con empatía.</strong> Practicá la escucha activa, reconocé y parafraseá, validá y ofrecé apoyo.</p>
+        <p><strong>Superá los bloqueos de empatía.</strong> Estar presente, evitar suposiciones, escuchar para entender y desafiar tus sesgos.</p>
+        <p><strong>Ejercitá tus músculos de empatía.</strong> Es una habilidad que se puede aprender y desarrollar con práctica.</p>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- CIERRE -->
+<section class="closing" id="cierre">
+  <div class="section">
+    <span class="eyebrow">Para cerrar el curso</span>
+    <h2>¡Terminaste los contenidos!</h2>
+    <p class="lead">Ya recorriste las cinco lecciones del curso. Para completarlo, falta un último paso en Humand:</p>
+
+    <ol class="closing-steps">
+      <li>
+        <span class="n">1</span>
+        <div><h4>Cerrá este curso</h4><p>Cerrá esta ventana para volver a Humand.</p></div>
+      </li>
+      <li>
+        <span class="n">2</span>
+        <div><h4>Realizá la evaluación final</h4><p>Ingresá nuevamente al curso en Humand y completá la evaluación final.</p></div>
+      </li>
+      <li>
+        <span class="n">3</span>
+        <div><h4>Firmá el curso</h4><p>El curso queda completo una vez que realices la evaluación y lo firmes.</p></div>
+      </li>
+      <li>
+        <span class="n">4</span>
+        <div><h4>Descargá tu certificado</h4><p>Cuando lo completes, vas a poder descargar el certificado correspondiente.</p></div>
+      </li>
+    </ol>
+
+    <p class="closing-note">¡Gracias por tu tiempo y tu compromiso con la capacitación!</p>
+  </div>
+</section>
+
+<footer>CAMPUS DE CAPACITACIÓN INTERNA — EMPATÍA</footer>
+
+<script>
+// ---- Match / V-F check (genérico) ----
+document.querySelectorAll('.btn-check').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const wrap = document.getElementById(btn.dataset.target);
+    const kind = btn.dataset.kind;
+    const fb = wrap.querySelector('.feedback');
+    fb.classList.remove('good','bad');
+
+    if(kind === 'match'){
+      const rows = wrap.querySelectorAll('.match-row');
+      let hits = 0;
+      rows.forEach(row=>{
+        const sel = row.querySelector('select');
+        const correct = row.dataset.correct;
+        row.classList.remove('correct','incorrect');
+        if(sel.value === correct){ row.classList.add('correct'); hits++; }
+        else if(sel.value !== ''){ row.classList.add('incorrect'); }
+      });
+      if(hits === rows.length){ fb.textContent = '¡Perfecto! Relacionaste todo correctamente.'; fb.classList.add('good'); }
+      else { fb.textContent = `Acertaste ${hits} de ${rows.length}. Revisá los campos resaltados e intentá de nuevo.`; fb.classList.add('bad'); }
+    }
+
+    if(kind === 'vf'){
+      const qs = wrap.querySelectorAll('.vf-q');
+      let hits = 0, answered = 0;
+      qs.forEach(q=>{
+        q.classList.remove('correct','incorrect');
+        const name = q.querySelector('input').name;
+        const sel = document.querySelector(`input[name="${name}"]:checked`);
+        if(sel){
+          answered++;
+          if(sel.value === q.dataset.correct){ q.classList.add('correct'); hits++; }
+          else{ q.classList.add('incorrect'); }
+        }
+      });
+      if(answered < qs.length){
+        fb.textContent = `Respondiste ${answered} de ${qs.length}. Completá todas las afirmaciones para corregir.`;
+        fb.classList.add('bad');
+      } else if(hits === qs.length){
+        fb.textContent = '¡Excelente! Todas las respuestas son correctas.'; fb.classList.add('good');
+      } else {
+        fb.textContent = `Respondiste correctamente ${hits} de ${qs.length}.`; fb.classList.add('bad');
+      }
+    }
+    fb.classList.add('show');
+  });
+});
+
+// ---- Compass + active nav ----
+const angles = {mod1:0, mod2:72, mod3:144, mod4:216, mod5:288};
+const needle = document.getElementById('needle');
+const needleMini = document.getElementById('needle-mini');
+const labelIds = {mod1:'lbl-mod1', mod2:'lbl-mod2', mod3:'lbl-mod3', mod4:'lbl-mod4', mod5:'lbl-mod5'};
+const navLinks = document.querySelectorAll('.rail a[data-nav]');
+
+function setActive(key){
+  const angle = angles[key] ?? 0;
+  needle.style.transform = `rotate(${angle}deg)`;
+  needleMini.style.transform = `rotate(${angle}deg)`;
+  Object.values(labelIds).forEach(id=>document.getElementById(id).classList.remove('active'));
+  if(labelIds[key]) document.getElementById(labelIds[key]).classList.add('active');
+  navLinks.forEach(a=>a.classList.toggle('active', a.dataset.nav === key));
+}
+
+const targets = document.querySelectorAll('[data-compass]');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{ if(entry.isIntersecting){ setActive(entry.target.dataset.compass); } });
+}, {rootMargin:'-40% 0px -50% 0px', threshold:0});
+targets.forEach(t=>io.observe(t));
+</script>
+
+</body>
+</html>
